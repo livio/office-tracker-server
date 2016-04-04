@@ -48,7 +48,8 @@ Tracker.prototype.findAndRemove = function(name, cb) {
         people.forEach((person, index) => {
             if (name === person.name) {
                 console.log('Removing ' + name + ' from ' + key);
-                self.currentLocations.set(location) = people.splice(index, 0);
+                people.splice(index, 0);
+                self.currentLocations.set(location) = people; 
                 return cb();
             }
         })

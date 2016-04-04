@@ -16,7 +16,13 @@ Location.all = function() {
 }
 
 Location.findById = function(id, cb) {
-    return cb(undefined, locations[id]);
+    locations.forEach((location) => {
+        if(location.id == id) {
+            return cb(undefined, location);
+        }
+    })
+    
+    return cb();
 }
 
 Location.findByName = function(name, cb) {
