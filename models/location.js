@@ -4,11 +4,11 @@ var Location = function(id, name) {
 }
 
 // Hard-coded locations
-var locations = {
-    1: new Location(1, 'justin\'s office'),
-    2: new Location(2, 'corey\'s desk'),
-    3: new Location(3, 'conference room')
-}
+var locations = [
+    new Location(1, 'justin\'s office'),
+    new Location(2, 'corey\'s desk'),
+    new Location(3, 'conference room')
+]
 
 // Gets an array of all locations
 Location.all = function() {

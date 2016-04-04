@@ -1,22 +1,22 @@
 var Location = require('./location');
 
 var Tracker = function() {
-    this.currentLocations = {};
+    var self = this;
+    self.currentLocations = new Map();
     
     // Initilize current locations
-    var locations = Location.all();
-    for(key in locations) {
-        if(locations.hasOwnProperty(key)) {
-            this.currentLocations[locations[key].name] = [];
-        }
-    }
+    Location.all().forEach((location) => {
+        self.currentLocations.set(location, []);
+    })
 }
 
-Tracker.prototype.current = function() {
-    return this.currentLocations;
+Tracker.prototype.current = function(cb) {
+    var result = {};
+    this.currentLocations.forEach((people, location) => {
+        result[location.name] = people;
+    })
+    return cb(undefined, result);
 }
-
-
 
 // add person to location
 Tracker.prototype.add = function(locationId, name, cb) {
@@ -32,7 +32,7 @@ Tracker.prototype.add = function(locationId, name, cb) {
                     return cb(err);
                 } else {
                     console.log('Adding ' + name + ' to ' + location.name);
-                    self.currentLocations[location.name].push({name: name});
+                    self.currentLocations.get(location).push({name: name})
                     return cb();
                 }
             })
@@ -43,19 +43,16 @@ Tracker.prototype.add = function(locationId, name, cb) {
 // Try and find user and remove them;
 Tracker.prototype.findAndRemove = function(name, cb) {
     var self = this;
-    for(var key in self.currentLocations) {
-        if(self.currentLocations.hasOwnProperty(key)) {
-            var people = self.currentLocations[key];
-            for(var i = 0; i < people.length; i++) {
-                if(name === people[i].name) {
-                    // Remove them
-                    console.log('Removing ' + name + ' from ' + key);
-                    self.currentLocations[key].splice(i,1);
-                    return cb();
-                }
+    
+    self.currentLocations.forEach((people, key) => {
+        people.forEach((person) => {
+            if(name === person.name) {
+                console.log('Removing ' + name + ' from ' + key);
+                self.currentLocations.delete(key);
+                return cb();
             }
-        }
-    }
+        })
+    })
     
     return cb();
 }

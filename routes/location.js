@@ -2,20 +2,14 @@ var express = require('express');
 var router = express.Router();
 var tracker = require('../models/tracker');
 
-/* GET home page. */
-var currentLocations = []
-
-
-
-router.get('/', function(req, res) {
-  res.render('index', { title: 'Express' });
-});
-
+/* Get current location */
 router.get('/location', function(req, res) {
-  console.log(tracker.current());
-  res.send(tracker.current());
+  tracker.current(function(err, result) {
+    res.send(result);
+  })
 });
 
+/* Remove user from location */
 router.delete('/location', function(req, res, next) {
   if(!req.body.name) {
     return res.status(400).send({ error: 'name is not defined in body' })
@@ -30,6 +24,7 @@ router.delete('/location', function(req, res, next) {
   }
 })
 
+/* Add user to location */
 router.post('/location', function(req, res, next) {
   if (!req.body.location) {
     return res.status(400).send({ error: 'location is not defined in body' })
