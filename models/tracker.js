@@ -23,17 +23,15 @@ Tracker.prototype.add = function(locationId, name, cb) {
     var self = this;
     Location.findById(locationId, function(err, location) {
         if(err) {
-            console.log('findById err');
             return cb(err);
         } else if(!location) {
-            console.log('no location');
             return cb(new Error('location with id ' + locationId + ' not found'));
         } else {
-            console.log('findAndRemove:', name);
             self.findAndRemove(name, function(err) {
                 if(err) {
                     return cb(err);
                 } else {
+                    console.log('Adding ' + name + ' to ' + location.name);
                     self.currentLocations[location.name].push({name: name});
                     return cb();
                 }
@@ -48,11 +46,10 @@ Tracker.prototype.findAndRemove = function(name, cb) {
     for(var key in self.currentLocations) {
         if(self.currentLocations.hasOwnProperty(key)) {
             var people = self.currentLocations[key];
-            console.log('people:', people);
             for(var i = 0; i < people.length; i++) {
                 if(name === people[i].name) {
                     // Remove them
-                    console.log('removing item at index ', i);
+                    console.log('Removing ' + name + ' from ' + key);
                     self.currentLocations[key].splice(i,1);
                     return cb();
                 }

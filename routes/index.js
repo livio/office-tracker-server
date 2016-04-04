@@ -31,19 +31,15 @@ router.delete('/location', function(req, res, next) {
 })
 
 router.post('/location', function(req, res, next) {
-  console.log(req.body);
-
   if (!req.body.location) {
     return res.status(400).send({ error: 'location is not defined in body' })
   } else if (!req.body.name) {
     return res.status(400).send({ error: 'name is not defined in body' })
   } else {
-    console.log('track add');
     tracker.add(req.body.location, req.body.name.toLowerCase().trim(), function(err) {
       if (err) {
         return next(err);
       } else {
-        console.log('sending dat body');
         res.send(req.body);
       }
     });
