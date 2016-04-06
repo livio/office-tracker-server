@@ -10,29 +10,17 @@ var locations = [
     new Location(3, 'conference room')
 ]
 
-// Gets an array of all locations
+// Returns an array of all locations
 Location.all = function() {
     return locations;
 }
 
+// Finds a single location by ID
 Location.findById = function(id, cb) {
-    locations.forEach((location) => {
+    for(var i = 0; i < locations.length; i++) {
+        var location = locations[i];
         if(location.id == id) {
             return cb(undefined, location);
-        }
-    })
-    
-    return cb();
-}
-
-Location.findByName = function(name, cb) {
-    var trimmedName = name.toLowerCase().trim();
-    for(var key in locations) {
-        if(locations.hasOwnProperty(key)) {
-            var location = locations[key];
-            if(trimmedName === location.name) {
-                return cb(undefined, location);
-            }
         }
     }
     

@@ -4,7 +4,7 @@ var tracker = require('../models/tracker');
 
 /* Get current location */
 router.get('/location', function(req, res) {
-  tracker.current(function(err, result) {
+  tracker.format(function(err, result) {
     res.send(result);
   })
 });
