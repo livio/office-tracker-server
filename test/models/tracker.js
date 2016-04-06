@@ -4,6 +4,13 @@ var Location = require('../../models/location');
 
 
 describe('Tracker', function() {
+    
+    
+    beforeEach(function (done) {
+        tracker.reset();
+        done();
+    });
+    
 
     describe(':constructor', function() {
         it('should be initalized with locations', function(done) {
@@ -139,6 +146,5 @@ describe('Tracker', function() {
         })
 
     });
-
-
+    
 });

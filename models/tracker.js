@@ -1,13 +1,11 @@
 var Location = require('./location');
+var logger = require('morgan');
 
 var Tracker = function() {
-    var self = this;
-    self.locations = new Map();
-
-    // Initilize current locations
-    Location.all().forEach((location) => {
-        self.locations.set(location, []);
-    })
+    this.locations = new Map();
+    
+    // Set-up locations
+    this.reset();
 }
 
 Tracker.prototype.format = function(cb) {
@@ -36,7 +34,7 @@ Tracker.prototype.add = function(locationId, name, cb) {
                 if (err) {
                     return cb(err);
                 } else {
-                    console.log('Adding ' + name + ' to ' + location.name);
+                    // console.log('Adding ' + name + ' to ' + location.name);
                     self.locations.get(location).push({ name: name })
                     return cb();
                 }
@@ -73,11 +71,23 @@ Tracker.prototype.remove = function(name, cb) {
             // No user to remove
             return cb(undefined, false);
         } else {
-            console.log('Removing ' + name + ' from ' + location.name);
+            // console.log('Removing ' + name + ' from ' + location.name);
             self.locations.get(location).splice(index, 1);
             return cb(undefined, true);
         }
     });
+}
+
+// Resets the locations array to its default state
+Tracker.prototype.reset = function() {
+    var self = this;
+    
+    self.locations.clear();
+    
+    // Initilize current locations
+    Location.all().forEach((location) => {
+        self.locations.set(location, []);
+    })
 }
 
 module.exports = new Tracker();

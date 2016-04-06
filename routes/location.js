@@ -14,11 +14,11 @@ router.delete('/', function(req, res, next) {
   if(!req.body.name) {
     return res.status(400).send({ error: 'name is not defined in body' })
   } else {
-    tracker.findAndRemove(req.body.name.toLowerCase().trim(), function(err) {
+    tracker.remove(req.body.name.toLowerCase().trim(), function(err, result) {
       if(err) {
         return next(err);
       } else {
-        res.send();
+        res.send({success: result});
       }
     })
   }
