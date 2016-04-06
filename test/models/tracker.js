@@ -4,13 +4,13 @@ var Location = require('../../models/location');
 
 
 describe('Tracker', function() {
-    
-    
-    beforeEach(function (done) {
+
+
+    beforeEach(function(done) {
         tracker.reset();
         done();
     });
-    
+
 
     describe(':constructor', function() {
         it('should be initalized with locations', function(done) {
@@ -41,52 +41,76 @@ describe('Tracker', function() {
 
         });
 
-    });
-    
-    describe(':format', function() {
-        it('should return a new javascript object in the correct format', function(done) {
-            
+        it('should remove the user from the previous location', function(done) {
             var allLocations = Location.all();
             var locationOne = allLocations[0];
-            var locationOneUsers = [{ name: 'mad max' }, {name: 'super man'}];
+            var user = { name: 'mad max' };
             var locationTwo = allLocations[1];
-            var locationTwoUsers = [{ name: 'famous actor'}];
+
+            // Manually add user to tracker
+            tracker.getLocations().set(locationOne, [user]);
             
-            // Manually add user to tracker map
-            tracker.getLocations().set(locationOne, locationOneUsers);
-            tracker.getLocations().set(locationTwo, locationTwoUsers);
-            
-            tracker.format(function(err, result) {
+            tracker.add(locationTwo.id, user.name, function(err) {
                 if(err) {
                     return done(err);
                 } else {
-                    assert(result);
+                    // User should be removed
+                    assert.equal(tracker.getLocations().get(locationOne).length, 0);
                     
+                    // User should be in new location
+                    assert.equal(tracker.getLocations().get(locationTwo)[0].name, user.name);
+                    
+                    done();
+                }
+            })
+        })
+
+    });
+
+    describe(':format', function() {
+        it('should return a new javascript object in the correct format', function(done) {
+
+            var allLocations = Location.all();
+            var locationOne = allLocations[0];
+            var locationOneUsers = [{ name: 'mad max' }, { name: 'super man' }];
+            var locationTwo = allLocations[1];
+            var locationTwoUsers = [{ name: 'famous actor' }];
+
+            // Manually add user to tracker map
+            tracker.getLocations().set(locationOne, locationOneUsers);
+            tracker.getLocations().set(locationTwo, locationTwoUsers);
+
+            tracker.format(function(err, result) {
+                if (err) {
+                    return done(err);
+                } else {
+                    assert(result);
+
                     // Check that the object is formatted as follows:
                     // { 'location name': [{},{}], 'location name two': [] }
                     var keyCount = 0;
-                    for(key in result) {
+                    for (key in result) {
                         keyCount++;
-                        if(result.hasOwnProperty(key)) {
+                        if (result.hasOwnProperty(key)) {
                             var locationFound = false;
                             allLocations.forEach(location => {
-                                if(location.name == key) {
+                                if (location.name == key) {
                                     locationFound = true;
-                                    if(location == locationOne) {
+                                    if (location == locationOne) {
                                         assert.deepEqual(result[key], locationOneUsers);
-                                    } else if(location == locationTwo) {
+                                    } else if (location == locationTwo) {
                                         assert.deepEqual(result[key], locationTwoUsers);
                                     }
                                 }
                             })
-                            
+
                             assert(locationFound);
                         }
                     }
-                    
+
                     // The number of keys in the object should be equal to the number of locations that are configured
                     assert.equal(keyCount, allLocations.length);
-                    
+
                     done();
                 }
             })
@@ -100,9 +124,9 @@ describe('Tracker', function() {
 
             // Manually add user to tracker map
             tracker.getLocations().set(location, [{ name: name }]);
-            
+
             tracker.remove(name, function(err, result) {
-                if(err) {
+                if (err) {
                     return done(err);
                 } else {
                     assert(result);
@@ -146,5 +170,5 @@ describe('Tracker', function() {
         })
 
     });
-    
+
 });
