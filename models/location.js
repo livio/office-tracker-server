@@ -5,9 +5,10 @@ var Location = function(id, name) {
 
 // Hard-coded locations
 var locations = [
-    new Location(1, 'justin\'s office'),
-    new Location(2, 'corey\'s desk'),
-    new Location(3, 'conference room')
+    new Location(1, 'conference room'),
+    new Location(2, 'kitchen'),
+    new Location(3, 'hallway'),
+    new Location(4, 'back')
 ]
 
 // Returns an array of all locations
