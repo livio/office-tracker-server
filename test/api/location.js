@@ -80,6 +80,20 @@ describe('Location API', function() {
                 .end(done);
         })
 
+        it('should return 400 if location is not found', function(done) {
+            var body = {
+                name: 'mad max',
+                location: -999
+            };
+            
+            request(app)
+                .post(BASE_URL)
+                .send(body)
+                .expect('Content-Type', /json/)
+                .expect(400)
+                .end(done); 
+        })
+
     });
 
 
