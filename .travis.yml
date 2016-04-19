@@ -11,6 +11,7 @@ deploy:
   region: us-east-1
   app: OfficeTracker
   env: officetracker-production
+  bucket_name: officetracker-production.us-east-1.elasticbeanstalk.com
   on:
     branch: master
     node: 'v4'
