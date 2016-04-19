@@ -10,5 +10,8 @@ deploy:
     secure: oTSxfjxi1IDGgm16kSLEsoFQg0BqdHzHuK2Pqc6gxQJzutWQ3tdE/PntMrjx3Ggo62EkJCAnXMG0wQKEZfyX/X9z8ISB9o0RfbeZKcaz2MjUBkvcGw2ByNLjXNq8VMvcndE94ojU9Zjnrq20tUfDeHjBjkPDqNbPJ+LVf/DUy7JwmoFpbUvW99kjLo+hDEn2lyqacBze3s0fwuBZFH0JZKsEWRDsCow8UP0jhpjQo3eabQD+wv/ylIF2Tevr2IF11TtYWUtqnLiux6NX34fikjcM+I+SMpE8QWqyj83VPW1cTsclI8xnnLWbsmfUIe71J8dp4j22YCECBrtyIb6XDe9fmo+bivV2+HGK9ehdSNvj/+oUVWW1TVKq9fcLysOBIBr5I1PucfcgpZI1+DGcTT6iwtF72Tf8jsj/ZuzA4YK/yAWk7k1ARfj1AqN4htX+DLentrphgOlVgpNvFx6cGo/Eo0kpDl538iYQljN5WurmZd6zB9Vq1bCAP4pF64EDqtD4eJr67vsmSXDo011iFeiDnollJyef86OHUnUNT3qr7zlm8m1On38bxwqe6MWdHqLfp/VDPH2T9amNyrxhFLdAIcurZYpB4oCL98RWOjWC1GSTUs1w1zQRYOW0wc8qk8qMoehdEP+mr2BxrKLQ+aVy93IZEerJLeZZjI9cOio=
   application: OfficeTracker
   deployment_group: Production
+  revision_type: github
   on:
+    branch: master
+    node: 'v4'
     repo: livio/office-tracker-server
