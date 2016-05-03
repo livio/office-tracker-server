@@ -9,7 +9,7 @@ var locations = [
     new Location(2, 'kitchen'),
     new Location(3, 'hallway'),
     new Location(4, 'back'),
-    new Location(5, 'justin\'s office')
+    new Location(5, 'Lab')
 ]
 
 // Returns an array of all locations
